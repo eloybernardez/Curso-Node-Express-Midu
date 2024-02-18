@@ -34,6 +34,7 @@ app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
 // métodos complejos: PUT/PATCH/DELETE
 
   // si no usamos el middleware de Cors -------------------------
+  /*
   const ACCEPTED_ORIGINS = [
     'http://localhost:8080',
     'http://localhost:1234',
@@ -59,7 +60,7 @@ app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
     res.send(200)
   })
 // ---------------------------------------------------------------------
-
+*/
 
 // Todos los recursos que sean MOVIES se identifica con /movies
 app.get('/movies', (req, res) => {
