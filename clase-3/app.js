@@ -6,7 +6,7 @@ const movies = require('./movies.json')
 const { validateMovie, validatePartialMovie } = require('./schemas/movies')
 
 const app = express()
-app.use(express.json())
+app.use(express.json()) // middleware para parsear el body a JSON
 app.use(cors({
   origin: (origin, callback) => {
     const ACCEPTED_ORIGINS = [
@@ -26,14 +26,40 @@ app.use(cors({
 
     return callback(new Error('Not allowed by CORS'))
   }
-}))
+})) // middleware para habilitar CORS
+
 app.disable('x-powered-by') // deshabilitar el header X-Powered-By: Express
 
 // métodos normales: GET/HEAD/POST
 // métodos complejos: PUT/PATCH/DELETE
 
-// CORS PRE-Flight
-// OPTIONS
+  // si no usamos el middleware de Cors -------------------------
+  const ACCEPTED_ORIGINS = [
+    'http://localhost:8080',
+    'http://localhost:1234',
+    'https://movies.com',
+    'https://midu.dev'
+  ]
+  // En cada endpoint:
+  const origin = req.headers.origin
+
+  // Sin embargo si se hace una petición desde el mismo dominio, no se envía el header Origin:
+  if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
+    res.header('Access-Control-Allow-Origin', origin)
+  }
+  // CORS PRE-Flight
+  // OPTIONS
+  // y agregar este nuevo endpoint:
+  app.options("/movies", (req, res) => {
+    const origin = req.headers.origin
+    if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
+      res.header('Access-Control-Allow-Origin', origin)
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH')
+    }
+    res.send(200)
+  })
+// ---------------------------------------------------------------------
+
 
 // Todos los recursos que sean MOVIES se identifica con /movies
 app.get('/movies', (req, res) => {

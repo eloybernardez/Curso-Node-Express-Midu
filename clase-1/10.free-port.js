@@ -1,4 +1,4 @@
-const net = require('node:net')
+const net = require('node:net') // como http pero más liviano
 
 function findAvailablePort (desiredPort) {
   return new Promise((resolve, reject) => {

@@ -1,7 +1,7 @@
 // Esto sólo en los módulos nativos
 // que no tienen promesas nativas
 
-// const { promisify } = require('node:util')
+// const { promisify } = require('node:util') // si en modulos nativos no posees promesas
 // const readFilePromise = promisify(fs.readFile)
 
 import { readFile } from 'node:fs/promises'
